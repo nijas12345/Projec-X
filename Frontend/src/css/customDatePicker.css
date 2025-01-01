@@ -1,0 +1,14 @@
+.calendar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 10; /* Ensure it's above other elements */
+  }
+  
+  .react-datepicker__tab-loop {
+    z-index: 11; /* Ensure the datepicker is above the overlay */
+  }
+  

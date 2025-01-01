@@ -1,0 +1,25 @@
+/* Hide scrollbar for webkit browsers */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for Firefox */
+  .hide-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .reduce-scrollbar::-webkit-scrollbar {
+    width: 4px;  /* Adjust width as needed */
+  }
+
+  .reduce-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #b0b0b0 ; /* Customize scrollbar thumb color */
+    border-radius: 2px;        /* Adjust radius as desired */
+  }
+  
+  /* Reduce scrollbar width for Firefox */
+  .reduce-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #b0b0b0 transparent; /* Customize thumb and track colors */
+  }
+  

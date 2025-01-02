@@ -8,6 +8,5 @@
                     
     "skipLibCheck": true                      
   },
-  "include": ["./**/*.ts"],
-  "files":["./Types/express.d.ts"]
+  "include": ["**/*.ts", "Types/express.d.ts"]
 }

@@ -106,20 +106,31 @@ const AdminLogin: React.FC = () => {
         <>
           {/* Left Section */}
           <div className="lg:w-1/2 w-full h-1/2 lg:h-full relative bg-gray-100">
-            <img
-              src="/images/card.png"
-              alt="landing"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 flex flex-col justify-center items-center text-center">
-              <h1 className="text-4 xl lg:text-5xl text-white font-bold">
-                Welcome!
-              </h1>
-              <p className="text-lg lg:text-2xl text-white mt-4">
-                Access your projects seamlessly.
-              </p>
-            </div>
-          </div>
+  <img
+    src="/images/card.png"
+    alt="landing"
+    className="w-full h-full object-cover"
+  />
+  <div className="absolute inset-0 flex flex-col justify-center items-center text-center">
+    <h1 className="text-4xl lg:text-5xl text-white font-bold">
+      Welcome!
+    </h1>
+    <p className="text-lg lg:text-2xl text-white mt-4">
+      Access your projects seamlessly.
+    </p>
+  </div>
+  <div className="absolute top-8 left-6 text-2xl text-white font-bold">
+  <button 
+    onClick={() => navigate('/')} 
+    className="text-2xl font-bold bg-transparent border-none cursor-pointer"
+  >
+    Projec<span className="text-[#00A3FF]">-X</span>
+  </button>
+</div>
+
+</div>
+
+
 
           {/* Right Section */}
           <div className="lg:w-1/2 w-full h-1/2 lg:h-full flex justify-center items-center bg-white p-4">

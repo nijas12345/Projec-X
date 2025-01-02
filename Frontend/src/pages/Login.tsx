@@ -119,6 +119,14 @@ const LoginForm: React.FC = () => {
                 Access your projects seamlessly.
               </p>
             </div>
+            <div className="absolute top-8 left-6 text-2xl text-white font-bold">
+  <button 
+    onClick={() => navigate('/')} 
+    className="text-2xl font-bold bg-transparent border-none cursor-pointer"
+  >
+    Projec<span className="text-[#00A3FF]">-X</span>
+  </button>
+</div>
           </div>
 
           {/* Right Section */}

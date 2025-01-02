@@ -1,3 +1,5 @@
+import scrollbar from 'tailwind-scrollbar';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -6,23 +8,22 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily:{
-        mulish:['Mulish','sans-serif']
+      fontFamily: {
+        mulish: ['Mulish', 'sans-serif'],
       },
-      fontSize:{
-        '40px':'40px',
-        '24px':'24px'
+      fontSize: {
+        '40px': '40px',
+        '24px': '24px',
       },
-      colors:{
-        'custom-gray': '#e5e5e5', 
+      colors: {
+        'custom-gray': '#e5e5e5',
       },
       spacing: {
-        '1.5': '6.5px', 
+        '1.5': '6.5px',
       },
     },
-  },  
+  },
   plugins: [
-    require('tailwind-scrollbar')
+    scrollbar,
   ],
-}
-
+};

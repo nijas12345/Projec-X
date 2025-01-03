@@ -16,7 +16,6 @@ import Meeting from "../Model/meetingModal";
 import Company from "../Model/companyModal";
 import Admin from "../Model/adminModal";
 import cloudinary from "./cloudinary_config";
-import cors from 'cors'
 
 const userRepository = new UserRepository(User, Company);
 const chatRepository = new ChatRepository(
@@ -44,6 +43,7 @@ const configSocketIO = (server: HttpServer) => {
     cors: {
       origin: ["https://projec-x-uz6p.vercel.app"],
       methods: ["GET", "POST"],
+      credentials:true
     },
   });
 

@@ -6,7 +6,9 @@ import Stripe from "stripe";
 import stripe from "../Config/stripe_config";
 import dotenv from "dotenv";
 import { HttpStatusCode } from "axios";
+import cloudinary from "../Config/cloudinary_config";
 dotenv.config();
+import fs from "fs/promises";
 
 class AdminController {
   private adminService: IAdminService;
@@ -246,7 +248,22 @@ class AdminController {
   adminProfilePicture = async (req: Request, res: Response) => {
     try {
       const admin_id = req.admin_id as string;
-      const profileURL = req.file?.filename as string;
+      const file = req.file;
+      if (!file) throw new Error("No file exists");
+      const result = await cloudinary.uploader.upload(
+        file.path,
+        { folder: "uploads" },
+        (error, result) => {
+          if (error) {
+            console.error("Cloudinary upload error:", error);
+          } else {
+            console.log("Cloudinary upload result:", result);
+          }
+        }
+      );
+      await fs.unlink(file.path); // Deletes the file
+      console.log("Local file deleted successfully");
+      const profileURL: string = result.secure_url;
       const serviceResponse = await this.adminService.adminProfilePicture(
         admin_id,
         profileURL

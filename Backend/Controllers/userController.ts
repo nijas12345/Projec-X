@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import { IUserService } from "../Interfaces/user.service.interface";
 import { IUser } from "../Interfaces/commonInterface";
 import HTTP_statusCode from "../Enums/httpStatusCode";
-import { log } from "node:console";
-
+import cloudinary from "../Config/cloudinary_config";
+import fs from "fs/promises";
 class UserController {
   private userService: IUserService;
   constructor(userService: IUserService) {
@@ -194,7 +194,22 @@ class UserController {
   profilePicture = async (req: Request, res: Response) => {
     try {
       const user_id = req.user_id as string;
-      const profileURL = req.file?.filename as string;
+      const file = req.file;
+      if (!file) throw new Error("No file exists");
+      const result = await cloudinary.uploader.upload(
+        file.path,
+        { folder: "uploads" },
+        (error, result) => {
+          if (error) {
+            console.error("Cloudinary upload error:", error);
+          } else {
+            console.log("Cloudinary upload result:", result);
+          }
+        }
+      );
+      await fs.unlink(file.path); // Deletes the file
+      console.log("Local file deleted successfully");
+      const profileURL: string = result.secure_url;
       const serviceResponse = await this.userService.profilePicture(
         user_id,
         profileURL
@@ -216,12 +231,10 @@ class UserController {
 
       res.status(HTTP_statusCode.OK).json(serviceResponse);
     } catch (error) {
-      res
-        .status(HTTP_statusCode.NotFound)
-        .json({
-          message:
-            "Your Refferal Code is wrong. Please Enter the correct Refferal Code",
-        });
+      res.status(HTTP_statusCode.NotFound).json({
+        message:
+          "Your Refferal Code is wrong. Please Enter the correct Refferal Code",
+      });
     }
   };
 }

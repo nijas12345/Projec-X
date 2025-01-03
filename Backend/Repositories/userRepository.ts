@@ -159,13 +159,12 @@ class UserRepository implements IUserRepository {
           throw error;
         }
       }
-      let profileurl = `http://localhost:8000/${profileURL}`;
+      let profileurl = profileURL
       const userData: IUser | null = await this.userModel.findOneAndUpdate(
         { user_id: user_id },
         { profileImage: profileurl },
         { new: true }
       );
-      console.log(userData);
 
       if (userData) {
         return userData.profileImage;

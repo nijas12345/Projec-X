@@ -136,7 +136,6 @@ class AdminRepository implements IAdminRepository {
         { profileImage: profileurl },
         { new: true }
       );
-      console.log(adminData);
 
       if (adminData) {
         return adminData.profileImage;

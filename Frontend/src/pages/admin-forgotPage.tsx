@@ -67,11 +67,11 @@ export const AdminForgotPage: React.FC = () => {
     <div className="bg-[#F0F5F8] w-full h-screen relative">
       {/* Top Left Section */}
       <div className="absolute top-12 left-10">
-        <div className="flex items-center">
+      <button onClick={()=>{navigate('/')}} className="flex items-center">
           <span className="text-2xl font-bold">
             Projec<span className="text-[#00A3FF]">-X</span>
           </span>
-        </div>
+        </button>
       </div>
 
       {/* Forgot Password Section */}

@@ -84,9 +84,11 @@ export const AdminResetPasswordPage: React.FC = () => {
   return (
     <div className="bg-[#F0F5F8] w-full h-screen flex items-center justify-center">
       <div className="absolute top-12 left-10 flex items-center">
-        <span className="text-2xl font-bold">
-          Projec<span className="text-[#00A3FF]">-X</span>
-        </span>
+      <button onClick={()=>{navigate('/')}} className="flex items-center">
+          <span className="text-2xl font-bold">
+            Projec<span className="text-[#00A3FF]">-X</span>
+          </span>
+        </button>
       </div>
 
       <div className="bg-white p-8 rounded-md shadow-lg w-full max-w-lg">

@@ -8,6 +8,8 @@ export const sendInvitationLink = async (
   refferalCode: string
 ): Promise<boolean> => {
   const invitationLink = `${process.env.CLIENT_URL}?token=${refferalCode}`;
+  console.log("invitationLink",invitationLink);
+  
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {

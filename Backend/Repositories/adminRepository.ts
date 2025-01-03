@@ -130,7 +130,7 @@ class AdminRepository implements IAdminRepository {
           throw error;
         }
       }
-      let profileurl = `http://localhost:8000/${profileURL}`;
+      let profileurl = profileURL
       const adminData: IAdmin | null = await this.adminModel.findOneAndUpdate(
         { admin_id: admin_id },
         { profileImage: profileurl },

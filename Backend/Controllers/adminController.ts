@@ -246,6 +246,8 @@ class AdminController {
   };
   adminProfilePicture = async (req: Request, res: Response) => {
     try {
+      console.log("adminProfilePicture");
+      
       const admin_id = req.admin_id as string;
       const file = req.file
       console.log("secureUrl")

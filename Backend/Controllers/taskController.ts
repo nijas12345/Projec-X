@@ -70,7 +70,6 @@ class TaskController {
       const admin_id = req.admin_id as string;
       const file = req.file;
       if (!file) {
-        console.log("file");
 
         const tasks: ITask = {
           admin_id: admin_id,

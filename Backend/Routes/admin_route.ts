@@ -87,7 +87,7 @@ admin_router.get("/logout", adminController.logout);
 admin_router.post(
   "/upload-profile-image",
   adminVerifyToken,
-  upload.single("profileImage"),
+  upload.single("file"),
   adminController.adminProfilePicture
 );
 admin_router.post("/payment", adminVerifyToken, adminController.payment);

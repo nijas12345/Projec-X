@@ -41,7 +41,7 @@ let onlineUsers: { [key: string]: string } = {};
 const configSocketIO = (server: HttpServer) => {
   io = new SocketServer(server, {
     cors: {
-      origin: ["https://projec-x-uz6p.vercel.app"],
+      origin: ["https://projecx.online"],
       methods: ["GET", "POST"],
       credentials:true
     },

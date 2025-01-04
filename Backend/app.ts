@@ -24,7 +24,7 @@ const adminController = new AdminController(adminService)
 DB_Connection()
 const app:Application = express()
 app.use(cors({
-    origin:"https://projec-x-uz6p.vercel.app",
+    origin:"https://projecx.online",
     credentials:true
 }))
 const server = createServer(app)

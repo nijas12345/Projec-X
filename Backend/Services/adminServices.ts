@@ -307,8 +307,8 @@ class AdminServices implements IAdminService {
           },
         ],
         mode: "subscription",
-        success_url: `http://localhost:5173/admin/success`,
-        cancel_url: `http://localhost:5173/admin/cancel?subscription=${subscription}`,
+        success_url: `https://projec-x-uz6p.vercel.app/admin/success`,
+        cancel_url: `https://projec-x-uz6p.vercel.app/admin/cancel?subscription=${subscription}`,
         metadata: {
           subscription: subscription, // Store the subscription plan type ('pro' or 'basic')
           admin_id: admin_id, // Store the admin ID

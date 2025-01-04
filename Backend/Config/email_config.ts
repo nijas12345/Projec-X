@@ -7,7 +7,7 @@ export const sendInvitationLink = async (
   email: string,
   refferalCode: string
 ): Promise<boolean> => {
-  const invitationLink = `${process.env.CLIENT_URL}?token=${refferalCode}`;
+  const invitationLink = `${process.env.CLIENT_URL}/sign-in?token=${refferalCode}`;
   console.log("invitationLink",invitationLink);
   
   const transporter = nodemailer.createTransport({

@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import HTTP_statusCode from "../Enums/httpStatusCode";
-import { log } from "node:console";
 
 dotenv.config();
 

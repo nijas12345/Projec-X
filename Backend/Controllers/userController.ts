@@ -10,8 +10,9 @@ class UserController {
     this.userService = userService;
   }
   register = async (req: Request, res: Response) => {
-    try {
-      const refferalCode = req.query.token as string | null;
+    try { 
+      const refferalCode = req.query.refferalCode as string | null;
+      console.log('refferealcode',refferalCode);
       const userData: IUser = req.body;
       userData.refferalCode = refferalCode;
       await this.userService.register(userData);

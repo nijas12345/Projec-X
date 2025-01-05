@@ -8,6 +8,7 @@ import {
 import api from "../utils/axiosInstance";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { log } from "node:console";
 
 const UserManagementRight: React.FC<UserManagementRightProps> = ({
   selectedProject,
@@ -36,6 +37,22 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
     setUsers([]);
     setSelectedProject(null);
   };
+  const handleSearch = async(e: React.ChangeEvent<HTMLInputElement>) =>{
+      const searchUser = e.target.value
+      console.log("searchUser",searchUser);
+      
+      const response = await api.put('/admin/search-users', {
+        searchQuery: searchUser,
+        selectedProject
+      });
+      try {
+      selectedProject?setUsers(response.data):setCompanyMembers(response.data)
+
+     } catch (error) {
+      console.log(error);
+      
+     }
+  }
   const handleReInvite = async (email: string) => {
     const response = await api.patch("/admin/inviteUser", {
       email: email,
@@ -134,9 +151,8 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
   const fetchCompanyMembers = async () => {
     try {
       const response = await api.get(`/admin/company-members`);
-
       if (response.status === 200) {
-        setCompanyMembers(response.data); // Update your state
+        setCompanyMembers(response.data);
       }
     } catch (error) {
       console.error("Error fetching company members:", error);
@@ -145,12 +161,9 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
 
   const handleBlock = async (user_id: string) => {
     try {
-      console.log(user_id);
-
       const response = await api.put("/admin/user-block", {
         user_id: user_id,
       });
-
       if (response.status === 200) {
         setUsers((prevUsers) =>
           prevUsers.map((user) =>
@@ -165,8 +178,6 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
 
   const handleUnblock = async (user_id: string) => {
     try {
-      console.log(user_id);
-
       const response = await api.put("/admin/user-unblock", {
         user_id: user_id,
       });
@@ -188,12 +199,6 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
     fetchCompanyMembers();
     fetchCompanyDetails();
   }, []);
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-      console.log(page);
-    }
-  };
   return selectedProject ? (
     <div className="bg-gray-300">
       {/* Conditional header for selected project */}
@@ -211,6 +216,12 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
             </div>
           </div>
           <div className="flex items-center space-x-4">
+          <input
+              type="text"
+              placeholder="Search Users"
+              onChange={handleSearch}
+              className="border border-gray-300 rounded-lg px-3 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
             <button
               className="bg-indigo-700 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-600 transition duration-200"
               onClick={handleCompany}
@@ -225,7 +236,7 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
             <thead>
               <tr className="border-b bg-gray-100 text-left text-sm font-medium text-gray-700 sticky top-0 z-10">
                 <th className="px-4 py-3">#</th>
-                <th className="px-4 py-3">Name</th>
+                <th className="px-4 py-3">Email</th>
                 <th className="px-4 py-3">Date Created</th>
                 <th className="px-4 py-3">Role</th>
                 <th className="px-4 py-3">Status</th>
@@ -309,40 +320,7 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
           </table>
         </div>
 
-        <div className="flex items-center justify-between mt-4 text-sm text-gray-500">
-          <div></div>
-          <div className="flex items-center gap-1">
-            <button
-              className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
-            >
-              Previous
-            </button>
-            {/* {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-              (page) => (
-                <button
-                  key={page}
-                  className={`px-3 py-1 border ${
-                    page === currentPage
-                      ? "bg-blue-500 text-white"
-                      : "border-gray-300 text-gray-600"
-                  } rounded`}
-                  onClick={() => handlePageChange(page)}
-                >
-                  {page}
-                </button>
-              )
-            )} */}
-            <button
-              className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
-              disabled={currentPage === totalPages}
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              Next
-            </button>
-          </div>
-        </div>
+     
       </div>
     </div>
   ) : (
@@ -351,37 +329,43 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
       <div className="flex flex-col h-screen max-w-6xl mx-auto bg-gray-100">
         {/* Header */}
         <header className="flex items-center justify-between p-4 bg-white border-b shadow-md">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 flex items-center justify-center bg-indigo-500 text-white rounded-full text-lg font-bold">
-              {companyName.charAt(0).toUpperCase()}{" "}
-              {/* Show the first letter of the company name */}
-            </div>
-            <div>
-              <h1 className="font-semibold text-lg text-gray-800">
-                {companyName}
-              </h1>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            <button
-              className="bg-indigo-700 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-600 transition duration-200"
-              onClick={openModal}
-            >
-              + Invite Members
-            </button>
-          </div>
-        </header>
+  <div className="flex items-center space-x-3">
+    <div className="w-10 h-10 flex items-center justify-center bg-indigo-500 text-white rounded-full text-lg font-bold">
+      {companyName.charAt(0).toUpperCase()}{" "}
+      {/* Show the first letter of the company name */}
+    </div>
+    <div>
+      <h1 className="font-semibold text-lg text-gray-800">{companyName}</h1>
+    </div>
+  </div>
+  <div className="flex items-center space-x-4">
+    {/* Search Bar */}
+    <input
+      type="text"
+      onChange={handleSearch}
+      placeholder="Search Users"
+      className="border border-gray-300 rounded-lg px-3 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    />
+    <button
+      className="bg-indigo-700 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-600 transition duration-200"
+      onClick={openModal}
+    >
+      + Invite Members
+    </button>
+  </div>
+</header>
+
 
         <div className="overflow-x-auto">
           <table className="w-full table-auto mt-4 border-collapse bg-white shadow">
             <thead>
               <tr className="border-b bg-gray-100 text-left text-sm font-medium text-gray-700">
                 <th className="px-4 py-3">#</th>
-                <th className="px-4 py-3">Name</th>
+                <th className="px-4 py-3">Email</th>
                 <th className="px-4 py-3">Invited Date</th>
                 <th className="px-4 py-3">Role</th>
                 <th className="px-4 py-3">Status</th>
-                <th className="px-5 py-3 text-right">Action</th>
+                <th className="px-10 py-3 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="h-20 overflow-y-scroll">
@@ -474,41 +458,6 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
           </table>
         </div>
 
-        {/* Pagination */}
-        <div className="flex items-center justify-between mt-4 text-sm text-gray-500">
-          <div></div>
-          <div className="flex items-center gap-1">
-            <button
-              className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
-            >
-              Previous
-            </button>
-            {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-              (page) => (
-                <button
-                  key={page}
-                  className={`px-3 py-1 border ${
-                    page === currentPage
-                      ? "bg-blue-500 text-white"
-                      : "border-gray-300 text-gray-600"
-                  } rounded`}
-                  onClick={() => handlePageChange(page)}
-                >
-                  {page}
-                </button>
-              )
-            )}
-            <button
-              className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
-              disabled={currentPage === totalPages}
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              Next
-            </button>
-          </div>
-        </div>
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">

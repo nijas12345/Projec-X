@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Project, ProjectSidebarProps } from "../apiTypes/apiTypes";
 import MeetingChatbar from "../components/meetingChatBar";
 import MeetingPageRight from "../components/meetingRightBar";
-import MeetingRightComponent from "../components/meetingRightComponent";
 import { toast } from "react-toastify";
 import { userLogout } from "../redux/Slices/UserAuth";
 import { useDispatch } from "react-redux";

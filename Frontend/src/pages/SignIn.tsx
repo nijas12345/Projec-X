@@ -10,12 +10,15 @@ import {
 } from "@heroicons/react/24/solid";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../utils/axiosInstance";
+import { log } from "node:console";
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const token = queryParams.get("token"); // Retrieves the 'token' value
+  const token = queryParams.get("token"); 
+  console.log("token",token);
+  
 
   // Navigate to login
   const handleGetStarted = (): void => {
@@ -101,6 +104,8 @@ const SignIn: React.FC = () => {
         password,
       };
       try {
+        console.log("token",token);
+        
         if (token) {
           await api.post(`/register?refferalCode=${token}`, formData, {});
           navigate("/otp");

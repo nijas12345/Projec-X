@@ -4,6 +4,7 @@ import {
   ICompany,
   ICompanyMember,
   IMember,
+  IProject,
 } from "../Interfaces/commonInterface";
 import { ICompanyService } from "../Interfaces/company.service.interface";
 import { HttpStatusCode } from "axios";
@@ -34,6 +35,22 @@ class CompanyController {
       const serviceResponse = await this.companyService.companyMembers(
         admin_id
       );
+      res.status(HttpStatusCode.Ok).json(serviceResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  searchMembers = async (req: Request, res: Response) => {
+    try {
+      const admin_id = req.admin_id as string;
+      const searchQuery = req.body.searchQuery as string
+      const selectedProject = req.body.selectedProject as IProject|null
+      const serviceResponse = await this.companyService.searchMembers(
+        admin_id,
+        searchQuery,
+        selectedProject
+      );
+      console.log("service",serviceResponse);
       res.status(HttpStatusCode.Ok).json(serviceResponse);
     } catch (error) {
       console.log(error);

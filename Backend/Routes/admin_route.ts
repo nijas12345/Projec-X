@@ -175,6 +175,11 @@ admin_router.get(
   adminVerifyToken,
   companyController.companyMembers
 );
+admin_router.put(
+  "/search-users",
+  adminVerifyToken,
+  companyController.searchMembers
+)
 admin_router.put("/user-block", adminVerifyToken, adminController.blockUser);
 admin_router.put(
   "/user-unBlock",

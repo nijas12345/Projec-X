@@ -4,6 +4,7 @@ import {
   ICompany,
   ICompanyMember,
   IMember,
+  IProject,
   IUser,
 } from "../Interfaces/commonInterface";
 import { ICompanyRepository } from "../Interfaces/company.repository.interface";
@@ -45,6 +46,18 @@ class CompanyServices implements ICompanyService {
         await this.companyRepository.companyMembers(admin_id);
       if (!companyMembers) throw new Error("No company Data");
       return companyMembers;
+    } catch (error) {
+      throw error;
+    }
+  };
+  searchMembers = async (admin_id: string,searchQuery:string,selectedProject:IProject|null): Promise<ICompanyMember[]|IUser[]> => {
+    try {
+      if(selectedProject){
+        return await this.companyRepository.searchProjectMembers(searchQuery,selectedProject)
+      }
+      else{
+        return await this.companyRepository.searchMembers(admin_id,searchQuery)
+      }
     } catch (error) {
       throw error;
     }

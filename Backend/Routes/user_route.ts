@@ -108,6 +108,7 @@ user_router.post(
   upload.single("profileImage"),
   userController.profilePicture
 );
+
 user_router.post("/update-user", verifyToken, userController.updateUser);
 
 user_router.post(

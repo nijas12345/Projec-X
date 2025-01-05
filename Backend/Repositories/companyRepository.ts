@@ -62,7 +62,65 @@ class CompanyRepository implements ICompanyRepository {
       });
       if (!companyData) throw new Error("Company Error");
       const members: ICompanyMember[] = companyData.members;
+      const sortedMembers = members.sort((a, b) => {
+        return (
+          new Date(b.invitedAt).getTime() - new Date(a.invitedAt).getTime()
+        );
+      });
       return companyData.members;
+    } catch (error) {
+      throw error;
+    }
+  };
+  searchMembers = async (
+    admin_id: string,
+    searchQuery: string
+  ): Promise<ICompanyMember[]> => {
+    try {
+      const adminData: IAdmin | null = await this.adminModel.findOne({
+        admin_id: admin_id,
+      });
+      if (!adminData) throw new Error("No admin data");
+
+      // Step 2: Fetch company data
+      const companyData: ICompany | null = await this.companyModel.findOne({
+        _id: adminData.companyId,
+      });
+      if (!companyData) throw new Error("Company not found");
+
+      const matchedMembers = companyData.members
+        .filter((member) => new RegExp(searchQuery, "i").test(member.email)) // Filter by email
+        .sort(
+          (a, b) =>
+            new Date(b.invitedAt).getTime() - new Date(a.invitedAt).getTime()
+        );
+
+      return matchedMembers;
+    } catch (error) {
+      throw error;
+    }
+  };
+  searchProjectMembers = async (
+    searchQuery: string,
+    selectedProject: IProject
+  ): Promise<IUser[]> => {
+    try {
+      const projectData: IProject | null = await this.projectModel.findOne({
+        _id: selectedProject._id,
+      });
+      if (!projectData) {
+        throw new Error("No project data found");
+      }
+      const memberEmails: string[] = projectData.members.map(
+        (member) => member.email
+      );
+
+      const searchRegex = new RegExp(searchQuery, "i"); 
+      const users: IUser[] = await this.userModel.find({
+        email: { $in: memberEmails, $regex: searchRegex },
+      });
+
+      return users;
     } catch (error) {
       throw error;
     }
@@ -156,6 +214,7 @@ class CompanyRepository implements ICompanyRepository {
       throw error;
     }
   };
+
   companyName = async (user_id: string): Promise<ICompany | null> => {
     try {
       const userData: IUser | null = await this.userModel.findOne({

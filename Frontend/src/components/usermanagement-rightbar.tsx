@@ -237,9 +237,9 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
               <tr className="border-b bg-gray-100 text-left text-sm font-medium text-gray-700 sticky top-0 z-10">
                 <th className="px-4 py-3">#</th>
                 <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">Date Created</th>
+                <th className="px-4 py-3">Joined Date</th>
                 <th className="px-4 py-3">Role</th>
-                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Phone</th>
                 <th className="px-4 py-3 text-right">Action</th>
               </tr>
             </thead>
@@ -265,7 +265,7 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
                         className="h-8 w-8 rounded-full"
                       />
                       <span className="text-sm text-gray-800">
-                        {user.firstName || "N/A"}
+                        {user.email || "N/A"}
                       </span>
                     </div>
                   </td>
@@ -278,17 +278,15 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
                   </td>
 
                   {/* Role */}
-                  <td className="px-4 py-3 text-sm text-gray-600">Member</td>
+                  <td className="px-4 py-3 text-sm text-gray-600">{user.position||"Position not updated"}</td>
 
                   {/* Status */}
-                  <td className="px-4 py-3">
+                  <td className=" py-3">
                     <div className="flex items-center gap-2">
                       <div
-                        className={`h-2 w-2 rounded-full ${
-                          user.refferalCode ? "bg-green-500" : "bg-gray-300"
-                        }`}
+                        className={`h-2 w-2 rounded-full`}
                       ></div>
-                      <span className="text-sm text-gray-800">{"active"}</span>
+                      <span className="text-sm text-gray-800">{user.phone}</span>
                     </div>
                   </td>
 
@@ -443,8 +441,8 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
                         </button>
                       ) : (
                         // Joined state: Show status or relevant action
-                        <button
-                          className="h-8 w-20 flex items-center justify-center bg-blue-500 text-white hover:bg-blue-700 border border-blue-500 rounded"
+                        <button disabled
+                          className="h-8 w-20 flex items-center justify-center bg-blue-500 text-white border border-blue-500 rounded"
                           aria-label="Joined"
                         >
                           Member

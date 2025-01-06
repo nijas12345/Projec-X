@@ -65,7 +65,7 @@ const LoginForm: React.FC = () => {
     } catch (error: any) {
       setLoading(false);
       const message = error.response?.data?.message;
-      if (message === "email not found") handleError("Email not found");
+      if (message === "Email not found") handleError("Email not found");
       else if (message === "Wrong password") handleError("Password is wrong");
       else if (message === "User is blocked")
         handleError("Your account has been blocked. Please contact support.");

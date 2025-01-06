@@ -21,17 +21,19 @@ export const sendInvitationLink = async (
   const mailOptions = {
     from: process.env.ServerEmail as string,
     to: email,
-    subject: "ProjectX Invitation",
+    subject: "Projec-X Invitation",
     html: `
       <div style="font-family: Helvetica, Arial, sans-serif; min-width: 100px; overflow: auto; line-height: 2">
-        <div style="margin: 50px auto; width: 70%; padding: 20px 0">
-          <p style="font-size: 1.1em">Hi,</p>
-          <p>This message is from Project-Management App. Please click the link below to register your account:</p>
-          <a href="${invitationLink}" style="display: inline-block; padding: 10px 20px; font-size: 1em; color: #ffffff; background-color: #444; text-decoration: none; border-radius: 4px;">Register Link</a>
-          <p style="font-size: 0.9em;">Regards,<br />Project-Management App</p>
-          <hr style="border: none; border-top: 1px solid #eee" />
-        </div>
-      </div>
+     <div style="margin: 50px auto; width: 70%; padding: 20px 0">
+       <p style="font-size: 1.1em">Hi,</p>
+       <p>This message is from Projec-X. Please click the link below to register your account:</p>
+       <a href="${invitationLink}" style="display: inline-block; padding: 10px 20px; font-size: 1em; color: #ffffff; background-color: #444; text-decoration: none; border-radius: 4px;">Register Link</a>
+       <p>Your Referral Code: <strong>${refferalCode}</strong></p>  <!-- Referral code added here -->
+       <p style="font-size: 0.9em;">Regards,<br />Project-Management App</p>
+       <hr style="border: none; border-top: 1px solid #eee" />
+     </div>
+   </div>
+
     `,
   };
 
@@ -69,7 +71,7 @@ export const sendResetPasswordLink = async (
   const mailOptions = {
     from: process.env.ServerEmail as string,
     to: email,
-    subject: "Password Reset Request",
+    subject: "Projec-X Password Reset Request",
     html: `
       <div style="font-family: Helvetica, Arial, sans-serif; min-width: 100px; overflow: auto; line-height: 2">
         <div style="margin: 50px auto; width: 70%; padding: 20px 0">

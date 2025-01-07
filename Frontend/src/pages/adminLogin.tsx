@@ -49,8 +49,6 @@ const AdminLogin: React.FC = () => {
       if (response.status === 200) {
         setTimeout(() => {
           setLoading(false);
-          console.log("response", response);
-
           dispatch(setAdminCredentials(response.data));
           navigate("/admin/home");
         }, 2000);
@@ -177,9 +175,9 @@ const AdminLogin: React.FC = () => {
                     className="ml-2"
                   >
                     {passwordVisible ? (
-                      <EyeIcon className="h-6 w-6 text-gray-400" />
-                    ) : (
                       <EyeSlashIcon className="h-6 w-6 text-gray-400" />
+                    ) : (
+                      <EyeIcon className="h-6 w-6 text-gray-400" />
                     )}
                   </button>
                 </div>

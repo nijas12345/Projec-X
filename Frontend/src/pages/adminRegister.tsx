@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/axiosInstance";
+import Spinner from "../Loader/Loader";
 
 const AdminSignIn: React.FC = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const AdminSignIn: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // State for password visibility
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -84,7 +86,7 @@ const AdminSignIn: React.FC = () => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setLoading(true);
     if (validateForm()) {
       const formData = {
         firstName,
@@ -96,6 +98,7 @@ const AdminSignIn: React.FC = () => {
       };
       try {
         await api.post("/admin/register", formData);
+        setLoading(false);
         navigate("/admin/otp");
       } catch (error: any) {
         if (error.response.data.message === "Email already exists") {
@@ -120,7 +123,10 @@ const AdminSignIn: React.FC = () => {
 
   return (
     <div className="flex flex-col lg:flex-row h-screen">
-      {/* Left side with the image and centered project title */}
+       {loading ? (
+        <Spinner />
+      ) : (
+        <>
       <div className="lg:w-1/2 w-full h-1/2 lg:h-full relative bg-gray-100">
         <img
           src="/images/card.png"
@@ -330,8 +336,12 @@ const AdminSignIn: React.FC = () => {
           </p>
         </form>
       </div>
+      </>
+      )}
     </div>
+    
   );
+  
 };
 
 export default AdminSignIn;

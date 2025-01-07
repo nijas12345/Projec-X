@@ -191,9 +191,9 @@ const AdminDashboard: React.FC = () => {
             <div className="flex justify-end">
               <button
                 className="mt-4 px-4 py-2 text-blue-500 hover:underline transition"
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/admin/chat")}
               >
-                View Tasks
+                View Chats
               </button>
             </div>
           </div>
@@ -211,7 +211,7 @@ const AdminDashboard: React.FC = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div> 
     </div>
   );
 };

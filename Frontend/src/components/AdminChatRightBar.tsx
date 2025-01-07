@@ -6,6 +6,7 @@ import io, { Socket } from "socket.io-client";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/RootState/RootState";
 import api from "../utils/axiosInstance";
+import { read } from "node:fs";
 
 const backendURL = import.meta.env.VITE_BACKEND_API_URL;
 let socket: Socket | null = null;
@@ -143,7 +144,7 @@ const AdminChatPageRight: React.FC<ChatRightbarProps> = ({
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
   };
 
@@ -169,7 +170,10 @@ const AdminChatPageRight: React.FC<ChatRightbarProps> = ({
   const handleSendMessage = () => {
     if (selectedProject && adminInfo) {
       if (selectedFile) {
+        console.log("selected",selectedFile); 
         const reader = new FileReader();
+        console.log("reader",reader);
+        
         reader.onload = () => {
           const fileData = reader.result as string;
           const messageWithFile: Message = {
@@ -190,6 +194,8 @@ const AdminChatPageRight: React.FC<ChatRightbarProps> = ({
               data: fileData,
             },
           };
+          console.log("messageWithfile",messageWithFile);
+          
           setIsNewMessage(true);
           setMessages((prevMessages) => [...prevMessages, messageWithFile]);
           if (socket && socket.connected) {

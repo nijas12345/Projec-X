@@ -29,6 +29,7 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
   const [invitedMembers, setInvitedMembers] = useState<string[]>([]);
   const [memberEmail, setMemberEmail] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
+  const [isInviting,setIsInviting] = useState<boolean>(false)
   const [reInviteStatus, setReInviteStatus] = useState<{
     [email: string]: string;
   }>({});
@@ -93,7 +94,7 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
       setIsSending(true);
       // Simulate adding the member (you can integrate actual API call here)
       setTimeout(() => {
-        setInvitedMembers([...invitedMembers, memberEmail]);
+        setInvitedMembers([...invitedMembers,memberEmail]);
         setMemberEmail("");
         setIsSending(false);
       }, 500);
@@ -107,12 +108,12 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
   };
 
   const handleInvite = async () => {
+    setIsInviting(true)
     if (invitedMembers.length === 0) {
       toast.error("Please invite at least one member.");
       return false;
     }
-    closeModal();
-    setInvitationModal(true);
+
     const membersWithRole: CompanyMember[] = invitedMembers.map((email) => ({
       email,
       role: "Member",
@@ -123,9 +124,11 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
       const response = await api.put("/admin/invitation", {
         members: membersWithRole,
       });
-
+      closeModal();
+      setInvitationModal(true);
       if (response.status == 200) {
         setMemberEmail("");
+        setIsInviting(false)
         setInvitedMembers([]);
         setInvitationModal(false);
         setCompanyMembers(response.data);
@@ -509,8 +512,9 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
               <button
                 className="bg-indigo-700 text-white px-4 py-2 rounded-lg"
                 onClick={handleInvite}
-              >
-                Send Invite
+                disabled = {isInviting}
+              >     
+                {isInviting ? "Inviting...":"Send Invite"}
               </button>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import { useDraggable } from "@dnd-kit/core";
 import { DraggableTaskProps } from "../apiTypes/apiTypes";
 
-export const DraggableTask: React.FC<DraggableTaskProps> = ({ task, onClick }) => {
+export const DraggableTask: React.FC<DraggableTaskProps> = ({ task, onClick,onMouseEnter, onMouseLeave}) => {
   const { attributes, listeners, setNodeRef, isDragging, transform } =
     useDraggable    ({
       id: task._id,
@@ -30,10 +30,13 @@ export const DraggableTask: React.FC<DraggableTaskProps> = ({ task, onClick }) =
       {...listeners}
       style={style} // Set isDraggingTask to true when drag starts
       onContextMenu={handleContextMenu} // Set isDraggingTask to true when drag starts
-      className="p-4 shadow hover:shadow-lg transition-shadow duration-300 border mx-2 my-2 bg-white rounded-md cursor-pointer"
+      onMouseEnter={onMouseEnter} // Trigger hover behavior
+      onMouseLeave={onMouseLeave}
+      className="p-4 shadow hover:shadow-lg transition-shadow duration-300 border mx-2 my-2 bg-white rounded-md cursor-pointer " // Add relative positioning
     >
       <div className="p-0 space-y-3">
         <p className="text-base font-normal">{task.description}</p>
+  
         <div className="flex items-center justify-between">
           <div className="inline-block px-3 py-1 text-sm font-semibold text-white bg-[#5453AB] rounded-full">
             {task.taskName || ""}
@@ -48,4 +51,5 @@ export const DraggableTask: React.FC<DraggableTaskProps> = ({ task, onClick }) =
       </div>
     </div>
   );
+  
 };

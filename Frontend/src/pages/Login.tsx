@@ -174,9 +174,9 @@ const LoginForm: React.FC = () => {
                     className="ml-2"
                   >
                     {passwordVisible ? (
-                      <EyeIcon className="h-6 w-6 text-gray-400" />
-                    ) : (
                       <EyeSlashIcon className="h-6 w-6 text-gray-400" />
+                    ) : (
+                      <EyeIcon className="h-6 w-6 text-gray-400" />
                     )}
                   </button>
                 </div>

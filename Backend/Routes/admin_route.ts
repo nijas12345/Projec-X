@@ -213,7 +213,7 @@ admin_router.get(
 );
 
 admin_router.get(
-  "/get-projects/chat",
+  "/get-projects/chats",
   adminVerifyToken,
   projectController.AdminchatProjects
 );

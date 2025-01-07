@@ -24,7 +24,7 @@ const AdminChatPage: React.FC<ProjectSidebarProps> = ({
   };
   const fetchProjects = async () => {
     try {
-      const response = await api.get("/admin/get-projects/chat");
+      const response =  await api.get("/admin/get-projects/chats");
       if (response.data) {
         const transformedProjects = response.data.map((item: any) => ({
           ...item._doc, // Spread the project details from _doc

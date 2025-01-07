@@ -25,6 +25,8 @@ class UserServices implements IUserService {
   ): Promise<{ userData: IUser; userToken: string; refreshToken: string }> => {
     try {
       const userData = await this.userRepository.login(email);
+      console.log("userData",userData);
+      
       if (!userData) throw new Error("Email not found");
       const comparePassword = await bcrypt.compare(
         password,

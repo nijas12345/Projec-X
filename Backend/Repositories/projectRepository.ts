@@ -186,9 +186,8 @@ class ProjectRepository implements IProjectRepository {
         admin_id: admin_id,
       });
       if (!admin) {
-        throw new Error("User not found");
+        throw new Error("Admin not found");
       }
-      console.log(admin);
       const companyId = admin.companyId;
       const sameEmail = admin.email;
       const memberEmails = projectData.members.map((member) => member.email);
@@ -234,7 +233,9 @@ class ProjectRepository implements IProjectRepository {
           $set: update,
         }
       );
-      const projects = await this.projectModel.find();
+      const projects = await this.projectModel
+        .find({ admin_id: admin_id })
+        .sort({ createdAt: -1 });
       return projects;
     } catch (error) {
       console.log(error);
@@ -312,7 +313,7 @@ class ProjectRepository implements IProjectRepository {
   AdminchatProjects = async (admin_id: string): Promise<Projects[] | null> => {
     try {
       const combinedProjects: Projects[] = await this.projectModel.find({
-        admin_id:admin_id
+        admin_id: admin_id,
       });
 
       const sortedProjects: Projects[] = await Promise.all(
@@ -334,7 +335,7 @@ class ProjectRepository implements IProjectRepository {
         const dateB = b.latestMessage?.sentAt
           ? new Date(b.latestMessage.sentAt).getTime()
           : 0;
-        return dateB - dateA; 
+        return dateB - dateA;
       });
       return sortedProjects;
     } catch (error) {

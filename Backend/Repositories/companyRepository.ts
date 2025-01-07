@@ -8,6 +8,7 @@ import {
   IUser,
 } from "../Interfaces/commonInterface";
 import { ICompanyRepository } from "../Interfaces/company.repository.interface";
+import { log } from "node:console";
 
 class CompanyRepository implements ICompanyRepository {
   private adminModel = Model<IAdmin>;
@@ -62,6 +63,8 @@ class CompanyRepository implements ICompanyRepository {
       });
       if (!companyData) throw new Error("Company Error");
       const members: ICompanyMember[] = companyData.members;
+      console.log("members",members);
+      
       const sortedMembers = members.sort((a, b) => {
         return (
           new Date(b.invitedAt).getTime() - new Date(a.invitedAt).getTime()

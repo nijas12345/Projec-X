@@ -1,7 +1,7 @@
 import { Divide, MailIcon } from "lucide-react";
 import {
+  AdminData,
   CompanyMember,
-  Member,
   UserData,
   UserManagementRightProps,
 } from "../apiTypes/apiTypes";
@@ -9,12 +9,16 @@ import api from "../utils/axiosInstance";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { log } from "node:console";
+import { RootState } from "../redux/RootState/RootState";
+import { useSelector } from "react-redux";
 
 const UserManagementRight: React.FC<UserManagementRightProps> = ({
   selectedProject,
   setSelectedProject,
-  fetchProjects,
 }) => {
+  const adminInfo = useSelector(
+    (state: RootState): AdminData | null => state.adminAuth.adminInfo
+  );
   const [users, setUsers] = useState<UserData[]>([]);
   const [companyMembers, setCompanyMembers] = useState<CompanyMember[]>([]);
   const [companyName, setCompanyName] = useState<string>("");
@@ -40,8 +44,6 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
   };
   const handleSearch = async(e: React.ChangeEvent<HTMLInputElement>) =>{
       const searchUser = e.target.value
-      console.log("searchUser",searchUser);
-      
       const response = await api.put('/admin/search-users', {
         searchQuery: searchUser,
         selectedProject
@@ -86,6 +88,12 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
     sendApiRequest(); // Call the function whenever selectedProject changes
   }, [selectedProject]);
   const handleAddMember = () => {
+    if(adminInfo){
+      if(memberEmail == adminInfo.email){
+        toast.error("Inviting yourself is not permitted")
+        return
+      }
+      }
     if (invitedMembers.length >= 5) {
       toast.error("Only 5 members can add at a time");
       return; // Prevent adding more members

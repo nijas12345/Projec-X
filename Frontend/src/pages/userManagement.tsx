@@ -78,7 +78,6 @@ const UserManagement: React.FC<ProjectSidebarProps> = ({
         <UserManagementRight
           selectedProject={selectedProject}
           setSelectedProject={setSelectedProject}
-          fetchProjects={fetchProjects}
         />
       </div>
     </div>

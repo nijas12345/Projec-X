@@ -6,7 +6,6 @@ import {
   INotification,
   AdminData,
   Company,
-  Member,
   CompanyMember,
 } from "../apiTypes/apiTypes";
 import "../css/tailwind.css";
@@ -22,6 +21,7 @@ import AdminRightComponent from "../components/admin-right-nav";
 import AdminDashboard from "../components/admin-dashboard";
 import AdminTaskDetails from "../components/admin-task-details";
 import Notifications from "../components/notifications";
+
 
 const backendURL = import.meta.env.VITE_BACKEND_API_URL;
 let socket: Socket | null = null;
@@ -49,15 +49,21 @@ export default function AdminHome() {
   const validationHandlers = [
     () => {
       // Validation for step 1: Company Name
-      if (!companyName.trim() || /^\d+$/.test(companyName)) {
+      if (
+        !companyName.trim() || // Check if the input is empty or whitespace
+        /^\d+$/.test(companyName) || // Check if the input is all digits
+        !/[a-zA-Z].*[a-zA-Z]/.test(companyName) // Check if the input contains at least two alphabetic characters
+      ) {
         toast.error(
           !companyName.trim()
             ? "Company Name is required."
-            : "Company Name cannot be all digits. Please enter a valid name."
+            : /^\d+$/.test(companyName)
+            ? "Company Name cannot be all digits. Please enter a valid name."
+            : "Company Name must contain at least two alphabetic characters."
         );
         return false;
       }
-      return true;
+      return true;      
     },
     () => {
       // Validation for step 2: Company Description
@@ -145,6 +151,12 @@ export default function AdminHome() {
     }
   };
   const handleAddMember = async () => {
+    if(adminInfo){
+    if(memberEmail == adminInfo.email){
+      toast.error("Inviting yourself is not permitted")
+      return
+    }
+    }
     if (!memberEmail || !/^\S+@\S+\.\S+$/.test(memberEmail)) {
       toast.error("Please enter a valid email address.");
       return;

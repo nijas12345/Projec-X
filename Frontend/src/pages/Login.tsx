@@ -44,7 +44,33 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      setLoading(true);
+      if (!email) {
+        toast.error("Please enter your email", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        return;
+      }
+      
+      // Regex for validating email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      
+      if (!emailRegex.test(email)) {
+        toast.error("Please enter a valid email address", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        return;
+      }
+      
+      if (!password) {
+        toast.error("Please enter your password", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        return;
+      }
+      
       const response = await api.post("/login", { email, password });
       if (response.status === 200) {
         setTimeout(() => {
@@ -153,7 +179,7 @@ const LoginForm: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
                     className="flex-1 pl-2 bg-transparent outline-none text-sm"
-                    required
+                    
                   />
                 </div>
 
@@ -166,7 +192,7 @@ const LoginForm: React.FC = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
                     className="flex-1 pl-2 bg-transparent outline-none text-sm"
-                    required
+                    
                   />
                   <button
                     type="button"

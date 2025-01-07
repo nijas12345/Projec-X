@@ -86,7 +86,6 @@ const AdminSignIn: React.FC = () => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     if (validateForm()) {
       const formData = {
         firstName,
@@ -96,6 +95,7 @@ const AdminSignIn: React.FC = () => {
         password,
         role,
       };
+      setLoading(true);
       try {
         await api.post("/admin/register", formData);
         setLoading(false);
@@ -250,9 +250,9 @@ const AdminSignIn: React.FC = () => {
                 className="focus:outline-none absolute right-3"
               >
                 {showPassword ? (
-                  <EyeIcon className="w-5 h-5 text-gray-500" />
-                ) : (
                   <EyeSlashIcon className="w-5 h-5 text-gray-500" />
+                ) : (
+                  <EyeIcon className="w-5 h-5 text-gray-500" />
                 )}
               </button>
             </div>
@@ -284,9 +284,9 @@ const AdminSignIn: React.FC = () => {
                 className="focus:outline-none absolute right-3"
               >
                 {showConfirmPassword ? (
-                  <EyeIcon className="w-5 h-5 text-gray-500" />
-                ) : (
                   <EyeSlashIcon className="w-5 h-5 text-gray-500" />
+                ) : (
+                  <EyeIcon className="w-5 h-5 text-gray-500" />
                 )}
               </button>
             </div>
@@ -317,7 +317,7 @@ const AdminSignIn: React.FC = () => {
           )}
 
           {/* Sign-Up Button */}
-          <button
+          <button onClick={handleSubmit}
             type="submit"
             className="bg-[#5453ab] text-white font-bold py-1 px-3 rounded flex items-center gap-2 hover:bg-[#4a4a9b] transition duration-300 mx-auto font-mulish text-sm"
           >

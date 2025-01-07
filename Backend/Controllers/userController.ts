@@ -83,7 +83,7 @@ class UserController {
       if (error.message == "Email not found") {
         res
           .status(HTTP_statusCode.NotFound)
-          .json({ message: "email not found" });
+          .json({ message: "Email not found" });
       } else if (error.message == "Wrong password") {
         res
           .status(HTTP_statusCode.unAuthorized)

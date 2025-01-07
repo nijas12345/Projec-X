@@ -81,8 +81,7 @@ export interface ProjectSidebarProps {
   export interface UserManagementRightProps {
     selectedProject: Project|null;
     setSelectedProject:React.Dispatch<React.SetStateAction<Project | null>>;
-    fetchProjects:()=>Promise<void>
-  } 
+  }   
   export interface MeetingProps {
     selectedProject: Project|null;
   }

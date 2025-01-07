@@ -129,7 +129,6 @@ class AdminController {
     try {
       const token: string = req.body.token as string;
       const serviceResponse = await this.adminService.verifyGoogleAuth(token);
-
       res.cookie("AdminRefreshToken", serviceResponse.adminRefreshToken, {
         httpOnly: true,
         sameSite: "none",

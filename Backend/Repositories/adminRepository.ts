@@ -37,6 +37,7 @@ class AdminRepository implements IAdminRepository {
       const admin: IAdmin | null = await this.adminModel.findOne({
         email: email,
       });
+      
       if (admin) {
         let adminWithoutId: IAdmin | null = await this.adminModel.findOne(
           { _id: admin._id },
@@ -54,11 +55,11 @@ class AdminRepository implements IAdminRepository {
       const admin = await this.adminModel.findOne({ email: email });
       console.log("hai", admin);
       if (!admin) {
-        let user_id = uuidv4();
+        let admin_id = uuidv4();
         let adminData = {
           firstName: email.split("@")[0],
           email: email,
-          user_id: user_id,
+          admin_id: admin_id,
         };
 
         let newAdmin = await this.adminModel.create(adminData);

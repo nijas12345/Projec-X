@@ -18,7 +18,6 @@ const SignIn: React.FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token"); 
-  console.log("token",token);
   
 
   // Navigate to login
@@ -95,7 +94,7 @@ const SignIn: React.FC = () => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true)
+    
     if (validateForm()) {
       const formData = {
         firstName,
@@ -105,7 +104,7 @@ const SignIn: React.FC = () => {
         password,
       };
       try {
-        console.log("token",token);
+        setLoading(true);
         
         if (token) {
           await api.post(`/register?refferalCode=${token}`, formData, {});
@@ -266,9 +265,9 @@ const SignIn: React.FC = () => {
                 className="focus:outline-none absolute right-3"
               >
                 {showPassword ? (
-                  <EyeIcon className="w-5 h-5 text-gray-500" />
-                ) : (
                   <EyeSlashIcon className="w-5 h-5 text-gray-500" />
+                ) : (
+                  <EyeIcon className="w-5 h-5 text-gray-500" />
                 )}
               </button>
             </div>
@@ -300,9 +299,9 @@ const SignIn: React.FC = () => {
                 className="focus:outline-none absolute right-3"
               >
                 {showConfirmPassword ? (
-                  <EyeIcon className="w-5 h-5 text-gray-500" />
-                ) : (
                   <EyeSlashIcon className="w-5 h-5 text-gray-500" />
+                ) : (
+                  <EyeIcon className="w-5 h-5 text-gray-500" />
                 )}
               </button>
             </div>

@@ -1,7 +1,6 @@
 import {
   HomeIcon,
   ChatBubbleLeftRightIcon,
-  EllipsisHorizontalIcon,
   ArrowLeftStartOnRectangleIcon,
   VideoCameraIcon,
 } from "@heroicons/react/24/outline";
@@ -21,7 +20,6 @@ const LeftNavBar: React.FC = () => {
     let response = await api.get("/logout", {
       withCredentials: true,
     });
-    console.log(document.cookie);
     if (response.status == 200) {
       navigate("/login");
       dispatch(userLogout());

@@ -13,7 +13,7 @@ import io, { Socket } from "socket.io-client";
 
 import api from "../utils/axiosInstance";
 import Notifications from "../components/notifications";
-import { setUserCredentials } from "../redux/Slices/UserAuth";
+import { setUserCredentials, userLogout } from "../redux/Slices/UserAuth";
 import { toast } from "react-toastify";
 import Tasks from "../components/task-details";
 
@@ -53,6 +53,21 @@ export default function Home() {
       );
     }
   };
+
+  const handleBack = async() =>{
+    try {
+      let response = await api.get("/logout", {
+        withCredentials: true,
+      });
+      if (response.status == 200) {
+        dispatch(userLogout());
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
 
   useEffect(() => {
     if (userInfo && !userInfo.isBlocked) {
@@ -127,7 +142,7 @@ export default function Home() {
                 />
                 <div className="flex justify-between mt-4 w-full">
                   <button
-                    onClick={() => navigate("/")}
+                    onClick={handleBack}
                     className="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded w-1/2 mr-2"
                   >
                     Home

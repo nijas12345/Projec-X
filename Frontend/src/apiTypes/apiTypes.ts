@@ -104,6 +104,8 @@ export interface UserManagementProps {
 export interface DraggableTaskProps {
   task: Task;
   onClick: (taskId: Task) => void;
+  onMouseEnter?: () => void; 
+  onMouseLeave?: () => void;
 }
 export interface ProjectHomebarProps {
   projects: Project[];

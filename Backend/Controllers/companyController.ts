@@ -70,7 +70,7 @@ class CompanyController {
       const admin_id = req.admin_id as string;
       const members: IMember[] = req.body.members;
       const serviceResponse: ICompanyMember[] =
-        await this.companyService.inviationUsers(admin_id, members);
+      await this.companyService.inviationUsers(admin_id, members);
       console.log("service");
       res.status(HttpStatusCode.Ok).json(serviceResponse);
     } catch (error) {

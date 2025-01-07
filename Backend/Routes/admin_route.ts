@@ -215,7 +215,7 @@ admin_router.get(
 admin_router.get(
   "/get-projects/chat",
   adminVerifyToken,
-  projectController.chatProjects
+  projectController.AdminchatProjects
 );
 admin_router.get(
   "/messages/:projectId",

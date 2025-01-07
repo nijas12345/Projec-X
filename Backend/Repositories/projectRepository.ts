@@ -101,7 +101,7 @@ class ProjectRepository implements IProjectRepository {
           return await this.projectModel.create(project);
         } else {
           throw new Error(
-            `Your plan has expired.Choose a subscription plan from premium page to create multiple projects`
+            `Choose a subscription plan from premium page to create multiple projects`
           );
         }
       } else {
@@ -311,17 +311,8 @@ class ProjectRepository implements IProjectRepository {
   };
   AdminchatProjects = async (admin_id: string): Promise<Projects[] | null> => {
     try {
-      const adminData: IUser | null = await this.adminModel.findOne({
-        admin_id: admin_id,
-      });
-      if (!adminData) {
-        throw new Error("No project Data");
-      }
-      const userEmail: string = adminData.email;
-
-      // Find projects where the user is a member or owner
       const combinedProjects: Projects[] = await this.projectModel.find({
-        $or: [{ "members.email": userEmail }, { admin_id: admin_id }],
+        admin_id:admin_id
       });
 
       const sortedProjects: Projects[] = await Promise.all(
@@ -343,7 +334,7 @@ class ProjectRepository implements IProjectRepository {
         const dateB = b.latestMessage?.sentAt
           ? new Date(b.latestMessage.sentAt).getTime()
           : 0;
-        return dateB - dateA; // Descending order
+        return dateB - dateA; 
       });
       return sortedProjects;
     } catch (error) {

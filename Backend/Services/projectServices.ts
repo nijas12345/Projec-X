@@ -106,7 +106,7 @@ class ProjectServices implements IProjectService {
   AdminchatProjects = async (admin_id: string): Promise<Projects[] | null> => {
     try {
       const projectData: Projects[] | null =
-        await this.projectRepository.chatProjects(admin_id);
+        await this.projectRepository.AdminchatProjects(admin_id);
       if (!projectData) {
         throw new Error("No projects are found");
       }

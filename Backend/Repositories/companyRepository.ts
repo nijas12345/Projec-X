@@ -67,7 +67,7 @@ class CompanyRepository implements ICompanyRepository {
           new Date(b.invitedAt).getTime() - new Date(a.invitedAt).getTime()
         );
       });
-      return companyData.members;
+      return sortedMembers;
     } catch (error) {
       throw error;
     }
@@ -161,7 +161,10 @@ class CompanyRepository implements ICompanyRepository {
           { new: true }
         );
       if (!updatedCompany) throw new Error("No members modified");
-      const companyMembers: ICompanyMember[] = updatedCompany.members;
+      const companyMembers: ICompanyMember[] = updatedCompany.members.sort(
+        (a, b) =>
+          new Date(b.invitedAt).getTime() - new Date(a.invitedAt).getTime()
+      );
       const refferalCode: string = companyData.refferalCode;
       return { refferalCode, companyMembers };
     } catch (error) {

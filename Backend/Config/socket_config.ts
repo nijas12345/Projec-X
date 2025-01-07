@@ -41,10 +41,11 @@ let onlineUsers: { [key: string]: string } = {};
 const configSocketIO = (server: HttpServer) => {
   io = new SocketServer(server, {
     cors: {
-      origin: ["https://projecx.online"],
+      origin: ["https://projecx.online","http://localhost:5173"],
       methods: ["GET", "POST"],
       credentials:true
     },
+    maxHttpBufferSize: 10 * 1024 * 1024
   });
 
   io.on("connection", (socket) => {
@@ -113,8 +114,6 @@ const configSocketIO = (server: HttpServer) => {
 
         if (messageWithFile.imageFile) {
           const { data, name, type } = messageWithFile.imageFile;
-          console.log(data, name, type);
-
           const uploadResult = await cloudinary.uploader.upload(data, {
             folder: "project_files",
             resource_type: "auto",

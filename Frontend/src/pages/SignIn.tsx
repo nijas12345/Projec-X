@@ -54,7 +54,7 @@ const SignIn: React.FC = () => {
   });
 
   // Regex patterns for validation
-  const nameRegex = /^[A-Za-z]+$/;
+  const nameRegex = /^[A-Za-z\s]+$/; // Allows letters and spaces
   const phoneRegex = /^[1-9]{1}[0-9]{9}$/; // Validates a 10-digit phone number starting with non-zero
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
   const passwordRegex =
@@ -66,10 +66,16 @@ const SignIn: React.FC = () => {
       firstName: !nameRegex.test(firstName)
         ? "First Name must only contain letters"
         : "",
-      lastName: !nameRegex.test(lastName)
-        ? "Last Name must only contain letters"
-        : "",
-      email: !emailRegex.test(email)
+        lastName: lastName.startsWith(" ")
+        ? "Last Name cannot start with a space"
+        : lastName.endsWith(" ")
+        ? "Last Name cannot end with a space"
+        : !nameRegex.test(lastName)
+        ? "Last Name must only contain letters and spaces"
+        : "", 
+        email: email.startsWith(" ")
+        ? "Email cannot start with a space"
+        : !emailRegex.test(email)
         ? "Please enter a valid email address"
         : "",
       phone: !phoneRegex.test(phone) ? "Phone number must be 10 digits " : "",

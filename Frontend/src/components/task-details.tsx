@@ -55,7 +55,7 @@ const Tasks: React.FC<DashBoardProps> = ({ socket }) => {
   const [commentsVisible, setCommentsVisible] = useState(false);
   const [newComment, setNewComment] = useState<string>("");
   const [isDragging, setIsDragging] = useState(false);
-  const [hoveredTask, setHoveredTask] = useState<string|null>(null);
+  const [hoveredTask, setHoveredTask] = useState<string | null>(null);
 
   const handleMouseEnter = () => {
     setHoveredTask("nijas");
@@ -438,7 +438,7 @@ const Tasks: React.FC<DashBoardProps> = ({ socket }) => {
             value={selectedProject || ""}
             onChange={handleProjectChange}
           >
-            <option value="">All</option>
+            <option value="">Active</option>
             <option value="unassigned">Unassigned</option>
             {projects.map((project) => (
               <option key={project._id} value={project._id}>
@@ -601,24 +601,21 @@ const Tasks: React.FC<DashBoardProps> = ({ socket }) => {
                         {pendingTasks.map((task) => (
                           <DraggableTask
                             key={task._id}
-                            onMouseEnter={() => handleMouseEnter()} 
+                            onMouseEnter={() => handleMouseEnter()}
                             onMouseLeave={handleMouseLeave}
-                            task={task} 
-                            onClick={() => !isDragging && handleTask(task)
-                            }       
-                          />     
+                            task={task}
+                            onClick={() => !isDragging && handleTask(task)}
+                          />
                         ))}
-                                {hoveredTask !== null && (
-  <div
-    className="absolute bottom-24 left-40  transform -translate-x-1/2 bg-white text-black text-xs p-2 rounded-lg border border-gray-300 shadow-lg z-50"
-    style={{ maxWidth: "200px", fontSize: "0.75rem" }}
-  >
-    Right-click for task details
-  </div>
-)}
-       </div>
-       
-                      
+                        {hoveredTask !== null && (
+                          <div
+                            className="absolute bottom-24 left-40  transform -translate-x-1/2 bg-white text-black text-xs p-2 rounded-lg border border-gray-300 shadow-lg z-50"
+                            style={{ maxWidth: "200px", fontSize: "0.75rem" }}
+                          >
+                            Right-click for task details
+                          </div>
+                        )}
+                      </div>
                     ) : (
                       <div className="flex justify-center items-center p-4 text-gray-500">
                         <p>No pending tasks available</p>
@@ -634,7 +631,10 @@ const Tasks: React.FC<DashBoardProps> = ({ socket }) => {
                         IN PROGRESS
                       </h2>
                       {inProgressTasks.length > 0 ? (
-                        <div className="space-y-2 relative" id="in-progress-column">
+                        <div
+                          className="space-y-2 relative"
+                          id="in-progress-column"
+                        >
                           {inProgressTasks.map((task) => (
                             <DraggableTask
                               key={task._id}
@@ -663,7 +663,7 @@ const Tasks: React.FC<DashBoardProps> = ({ socket }) => {
                           {doneTasks.map((task) => (
                             <DraggableTask
                               key={task._id}
-                              task={task} 
+                              task={task}
                               onClick={() => !isDragging && handleTask(task)}
                             />
                           ))}
@@ -684,178 +684,195 @@ const Tasks: React.FC<DashBoardProps> = ({ socket }) => {
 
       {isTaskModalOpen && task && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div
-  className="bg-white h-[90%] w-[90%] max-w-3xl p-6 rounded shadow-lg relative flex flex-col"
-  onClick={(e) => e.stopPropagation()}
->
-  {/* Modal Header */}
-  <div className="p-6 border-b border-gray-200">
-    <h2 className="text-2xl font-bold text-blue-600">{task.taskName}</h2>
-  </div>
+          <div
+            className="bg-white h-[90%] w-[90%] max-w-3xl p-6 rounded shadow-lg relative flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-blue-600">
+                {task.taskName}
+              </h2>
+            </div>
 
-  {/* Scrollable Content */}
-  <div className="p-4 sm:p-6 flex-1 overflow-y-auto">
-    {/* Display Task Image */}
-    {task.taskImage && (
-      <div className="mb-4">
-        <img
-          src={task.taskImage}
-          alt={`${task.taskName} Image`}
-          className="w-full h-48 object-cover rounded-md"
-        />
-      </div>
-    )}
+            {/* Scrollable Content */}
+            <div className="p-4 sm:p-6 flex-1 overflow-y-auto">
+              {/* Display Task Image */}
+              {task.taskImage && (
+                <div className="mb-4">
+                  <img
+                    src={task.taskImage}
+                    alt={`${task.taskName} Image`}
+                    className="w-full h-48 object-cover rounded-md"
+                  />
+                </div>
+              )}
 
-    <div className="mb-4">
-      <div className="flex flex-wrap justify-between items-start">
-        {task.description && (
-          <div className="flex-1 mr-4">
-            <h3 className="text-lg font-medium text-gray-800">Description:</h3>
-            <p className="text-gray-600 mt-1">{task.description}</p>
-          </div>
-        )}
+              <div className="mb-4">
+                <div className="flex flex-wrap justify-between items-start">
+                  {task.description && (
+                    <div className="flex-1 mr-4">
+                      <h3 className="text-lg font-medium text-gray-800">
+                        Description:
+                      </h3>
+                      <p className="text-gray-600 mt-1">{task.description}</p>
+                    </div>
+                  )}
 
-        {task.deadline && (
-          <div className="flex-1">
-            <h3 className="text-lg font-medium text-gray-800">Deadline:</h3>
-            <p className="text-gray-600 mt-1">
-              {new Date(task.deadline).toLocaleString()}
-            </p>
-          </div>
-        )}
-      </div>
-    </div>
-    <div>
-                  <label
-                    htmlFor="assignedStatus"
-                    className="block text-gray-700 font-medium"
-                  >
-                    Assignment Status
-                  </label>
-                  {task.acceptanceStatus === "unAssigned" ? (
-                    <select
-                      id="assignedStatus"
-                      className="mt-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                      onChange={(e) => handleAcceptanceStatus(e.target.value)}
-                    >
-                      <option value="unassigned">Unassigned</option>
-                      <option value="me">Assigned by Me</option>
-                      <option value="projectManager">
-                        Reassign to Project Manager
-                      </option>
-                    </select>
-                  ) : (
-                    <select
-                      id="assignedStatus"
-                      className="mt-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                      onChange={(e) => handleAcceptanceStatus(e.target.value)}
-                    >
-                      <option value="me">Assigned by Me</option>
-                      <option value="projectManager">
-                        Reassign to Project Manager
-                      </option>
-                    </select>
+                  {task.deadline && (
+                    <div className="flex-1">
+                      <h3 className="text-lg font-medium text-gray-800">
+                        Deadline:
+                      </h3>
+                      <p className="text-gray-600 mt-1">
+                        {new Date(task.deadline).toLocaleString()}
+                      </p>
+                    </div>
                   )}
                 </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="assignedStatus"
+                  className="block text-gray-700 font-medium"
+                >
+                  Assignment Status
+                </label>
+                {task.acceptanceStatus === "unAssigned" ? (
+                  <select
+                    id="assignedStatus"
+                    className="mt-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    onChange={(e) => handleAcceptanceStatus(e.target.value)}
+                  >
+                    <option value="unassigned">Unassigned</option>
+                    <option value="me">Assigned by Me</option>
+                    <option value="projectManager">
+                      Reassign to Project Manager
+                    </option>
+                  </select>
+                ) : (
+                  <select
+                    id="assignedStatus"
+                    className="mt-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    onChange={(e) => handleAcceptanceStatus(e.target.value)}
+                  >
+                    <option value="me">Assigned by Me</option>
+                    <option value="projectManager">
+                      Reassign to Project Manager
+                    </option>
+                  </select>
+                )}
+              </div>
+              {isSmallScreen && (
+  <select
+    id="taskStatus"
+    className="mt-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+    onChange={(e) => handleTaskStatusChange(task._id, task.taskName, e.target.value)}
+  >
+    <option value="pending">Pending</option>
+    <option value="inProgress">In Progress</option>
+    <option value="completed">Completed</option>
+  </select>
+)}
 
-    {/* Comments Section */}
-    <div className="mt-6">
-      <button
-        type="button"
-        onClick={() => setCommentsVisible(!commentsVisible)}
-        className="w-full bg-gray-100 text-gray-800 px-4 py-2 rounded-lg shadow-md flex justify-between items-center"
-      >
-        <span>Comments</span>
-        {commentsVisible ? (
-          <ChevronUpIcon className="h-5 w-5" />
-        ) : (
-          <ChevronDownIcon className="h-5 w-5" />
-        )}
-      </button>
-
-      {commentsVisible && (
-        <div className="mt-4 space-y-4">
-          {task.comments &&
-            task.comments.map((comment, index) => (
-              <div
-                key={comment._id}
-                className="border rounded-lg p-4 bg-gray-50 shadow-sm relative"
-              >
-                {/* User Information */}
-                <p className="text-sm text-gray-600 mb-2">{comment.user}</p>
-                <div className="flex justify-between items-center">
-                  <p className="text-sm text-gray-600">{comment.text}</p>
-                  <p className="text-xs text-gray-400">
-                    {new Date(comment.createdAt).toLocaleString()}
-                  </p>
-                </div>
+              {/* Comments Section */}
+              <div className="mt-6">
                 <button
                   type="button"
-                  onClick={() => handleTaskDeleteComment(comment._id)}
-                  className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
+                  onClick={() => setCommentsVisible(!commentsVisible)}
+                  className="w-full bg-gray-100 text-gray-800 px-4 py-2 rounded-lg shadow-md flex justify-between items-center"
                 >
-                  {comment.user == userInfo?.firstName ? (
-                    <TrashIcon className="h-5 w-5 text-red-500" />
-                  ) : null}
+                  <span>Comments</span>
+                  {commentsVisible ? (
+                    <ChevronUpIcon className="h-5 w-5" />
+                  ) : (
+                    <ChevronDownIcon className="h-5 w-5" />
+                  )}
                 </button>
+
+                {commentsVisible && (
+                  <div className="mt-4 space-y-4">
+                    {task.comments &&
+                      task.comments.map((comment, index) => (
+                        <div
+                          key={comment._id}
+                          className="border rounded-lg p-4 bg-gray-50 shadow-sm relative"
+                        >
+                          {/* User Information */}
+                          <p className="text-sm text-gray-600 mb-2">
+                            {comment.user}
+                          </p>
+                          <div className="flex justify-between items-center">
+                            <p className="text-sm text-gray-600">
+                              {comment.text}
+                            </p>
+                            <p className="text-xs text-gray-400">
+                              {new Date(comment.createdAt).toLocaleString()}
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleTaskDeleteComment(comment._id)}
+                            className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
+                          >
+                            {comment.user == userInfo?.firstName ? (
+                              <TrashIcon className="h-5 w-5 text-red-500" />
+                            ) : null}
+                          </button>
+                        </div>
+                      ))}
+
+                    {/* Add Comment Input */}
+                    <div className="relative">
+                      <textarea
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        placeholder="Write a comment..."
+                        className="w-full rounded-lg border border-gray-300 shadow-sm p-2 pr-16"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleAddEditComment(task._id)}
+                        className="absolute top-1/2 right-2 -translate-y-1/2 bg-[#5453AB] text-white px-4 py-1 rounded-md shadow hover:bg-primary/90"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-            ))}
+            </div>
 
-          {/* Add Comment Input */}
-          <div className="relative">
-            <textarea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Write a comment..."
-              className="w-full rounded-lg border border-gray-300 shadow-sm p-2 pr-16"
-            />
-            <button
-              type="button"
-              onClick={() => handleAddEditComment(task._id)}
-              className="absolute top-1/2 right-2 -translate-y-1/2 bg-[#5453AB] text-white px-4 py-1 rounded-md shadow hover:bg-primary/90"
-            >
-              Add
-            </button>
+            {/* Modal Footer */}
+            <div className="p-6 border-t border-gray-200 flex justify-end space-x-4">
+              <button
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-[#F0F5F8]"
+                onClick={() => setIsTaskModalOpen(false)}
+              >
+                Close
+              </button>
+
+              {task.taskImage && (
+                <button
+                  onClick={downloadTaskDetails}
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                >
+                  Download Image
+                </button>
+              )}
+
+              <button
+                onClick={() => setIsTaskModalOpen(false)}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              >
+                Save
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
-  </div>
-
-  {/* Modal Footer */}
-  <div className="p-6 border-t border-gray-200 flex justify-end space-x-4">
-    <button
-      className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-[#F0F5F8]"
-      onClick={() => setIsTaskModalOpen(false)}
-    >
-      Close
-    </button>
-
-    {task.taskImage && (
-      <button
-        onClick={downloadTaskDetails}
-        className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-      >
-        Download Image
-      </button>
-    )}
-
-    <button
-      onClick={() => setIsTaskModalOpen(false)}
-      className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-    >
-      Save
-    </button>
-  </div>
-</div>
-
         </div>
       )}
     </div>
   );
 };
-
-
-
 
 export default Tasks;

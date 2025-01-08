@@ -32,7 +32,6 @@ const ProjectChatbar: React.FC<ProjectChatbarProps> = ({
       </div>
       <div className="flex-1 bg-white rounded-lg p-4 overflow-y-auto reduce-scrollbar">
         <h2 className="text-lg font-semibold mb-4">All Projects</h2>
-        <ul className="space-y-4">
           {projects.map((project) => (
             <li
               key={project._id}
@@ -63,7 +62,8 @@ const ProjectChatbar: React.FC<ProjectChatbarProps> = ({
               </div>
             </li>
           ))}
-        </ul>
+
+        
       </div>
     </div>
   );

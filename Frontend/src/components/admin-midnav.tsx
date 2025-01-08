@@ -99,35 +99,28 @@ const AdminProjectSidebar: React.FC<ProjectSidebarProps> = ({
 
   const handleCreateOrUpdateProject = async (e: React.FormEvent) => {
     e.preventDefault();
-    let hasError = false;
-
-    if (!/^[\w\s]+$/.test(newProjectName)) {
-      setNameError(
-        "Project name must contain only letters, numbers, and spaces."
+    if (!/^[\w\s]+$/.test(newProjectName) || /^\s/.test(newProjectName)) {
+      toast.error(
+        "Project name must contain only letters, numbers, and spaces, and cannot start with a space."
       );
-      hasError = true;
+      return;
     }
-
-    if (!/[a-zA-Z]/.test(newProjectDescription)) {
-      setDescriptionError(
-        "Project description must contain at least one alphabet character."
+    
+    if (!/[a-zA-Z]/.test(newProjectDescription) || /^\s/.test(newProjectDescription)) {
+      toast.error(
+        "Project description must contain at least one alphabet character and cannot start with a space."
       );
-      hasError = true;
+      return;
     }
-
-    const membersArray = newProjectMembers
-      .split(",")
-      .map((member) => member.trim());
+    
+    
+    const membersArray = newProjectMembers.split(",").map((member) => member.trim());
     for (let member of membersArray) {
       if (!validateEmail(member)) {
-        setMembersError(`Invalid email format: ${member}`);
-        hasError = true;
-        break;
+        toast.error(`Invalid email format: ${member}`);
+        return;
       }
     }
-
-    if (hasError) return;
-
     const projectData: Project = {
       _id: selectedProject ? selectedProject._id : "",
       name: newProjectName,

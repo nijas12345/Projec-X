@@ -232,10 +232,15 @@ const AdminTaskDetails: React.FC<DashBoardProps> = ({ socket }) => {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent the default form submission behavior
-    if (!taskName || !description || !selectedProject || !assigny) {
-      toast.error("Please fill in all required fields.");
+    if (!taskName || /^\s/.test(taskName) || !description || /^\s/.test(description)) {
+      toast.error("Please fill in all required fields and ensure task name and description do not start with a space.");
       return;
     }
+    if(!selectedProject || !assigny){
+      toast.error("Please fill all required fields")
+      return;
+    }
+    
     const currentDate = new Date();
     if (deadline) {
       if (deadline <= currentDate) {
@@ -395,9 +400,9 @@ const AdminTaskDetails: React.FC<DashBoardProps> = ({ socket }) => {
             value={selectedProject || ""}
             onChange={handleProjectChange}
           >
-            <option value="">All</option>
-            <option value="unassigned">Unassigned</option>
-            <option value="reassigned">Reassigned</option>
+            <option value="">Active</option>
+            <option value="unassigned">Un-Assigned</option>
+            <option value="reassigned">Re-Assigned</option>
             {projects.map((project) => (
               <option key={project._id} value={project._id}>
                 {project.name}
@@ -666,7 +671,7 @@ const AdminTaskDetails: React.FC<DashBoardProps> = ({ socket }) => {
             onClick={(e) => e.stopPropagation()}
           >
             <div>
-              <h2 className="text-xl font-medium mb-6">Edit Task</h2>
+              <h2 className="text-xl font-medium mb-6">Update Task</h2>
             </div>
             <div className="p-6 space-y-6 overflow-y-auto flex-1">
               <form className="space-y-6">
@@ -878,6 +883,7 @@ const AdminTaskDetails: React.FC<DashBoardProps> = ({ socket }) => {
                   <button
                     className="w-24 py-2 px-4 border rounded-md text-gray-700 hover:bg-gray-100"
                     onClick={() => {
+                      setSelectedProject(null)
                       setIsTaskModalOpen(false);
                     }}
                   >
@@ -894,7 +900,7 @@ const AdminTaskDetails: React.FC<DashBoardProps> = ({ socket }) => {
                     type="submit"
                     className="w-40 bg-primary text-white border bg-[#5453AB] hover:bg-primary/90 py-2 px-4 rounded-md"
                   >
-                    Edit Task
+                    Update Task
                   </button>
                 </div>
               </form>

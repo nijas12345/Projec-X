@@ -10,8 +10,10 @@ import {
   IMember,
   IPayment,
   ITask,
+  ICompany,
 } from "../Interfaces/commonInterface";
 import Project from "../Model/projectModal";
+import { existsSync } from "node:fs";
 
 class ProjectRepository implements IProjectRepository {
   private adminModel = Model<IAdmin>;
@@ -20,13 +22,15 @@ class ProjectRepository implements IProjectRepository {
   private chatModel = Model<IMessage>;
   private paymentModel = Model<IPayment>;
   private taskModel = Model<ITask>;
+  private companyModel = Model<ICompany>
   constructor(
     adminModel: Model<IAdmin>,
     userModel: Model<IUser>,
     projectModel: Model<IProject>,
     chatModel: Model<IMessage>,
     paymentModel: Model<IPayment>,
-    taskModel: Model<ITask>
+    taskModel: Model<ITask>,
+    companyModel:Model<ICompany>
   ) {
     this.adminModel = adminModel;
     this.userModel = userModel;
@@ -34,6 +38,7 @@ class ProjectRepository implements IProjectRepository {
     this.chatModel = chatModel;
     this.paymentModel = paymentModel;
     this.taskModel = taskModel;
+    this.companyModel = companyModel
   }
   createProject = async (
     admin_id: string,
@@ -58,13 +63,16 @@ class ProjectRepository implements IProjectRepository {
         if (paymentData) {
           const companyId = admin.companyId;
           const sameEmail = admin.email;
-          const memberEmails = projectData.members.map(
-            (member) => member.email
-          );
+          const companyData:ICompany|null = await this.companyModel.findOne({_id:companyId})
+        
+          if(!companyData) throw new Error("No company Data exists")
+          const refferalCode:string = companyData?.refferalCode
+          const memberEmails = projectData.members.map((member) => member.email);
           const existingUsers = await this.userModel.find({
-            email: { $in: memberEmails }, // Match emails in the array
-            companyId: companyId, // Match the specific company ID
+            email: { $in: memberEmails }, 
+            refferalCode: refferalCode, 
           });
+
           const missingEmails = [];
           const existingEmails = new Set(
             existingUsers.map((user) => user.email)
@@ -105,12 +113,17 @@ class ProjectRepository implements IProjectRepository {
           );
         }
       } else {
+        console.log("projectData",projectData);
         const companyId = admin.companyId;
         const sameEmail = admin.email;
+        const companyData:ICompany|null = await this.companyModel.findOne({_id:companyId})
+        
+        if(!companyData) throw new Error("No company Data exists")
+        const refferalCode:string = companyData?.refferalCode
         const memberEmails = projectData.members.map((member) => member.email);
         const existingUsers = await this.userModel.find({
-          email: { $in: memberEmails }, // Match emails in the array
-          companyId: companyId, // Match the specific company ID
+          email: { $in: memberEmails }, 
+          refferalCode: refferalCode, 
         });
         const missingEmails = [];
         const existingEmails = new Set(existingUsers.map((user) => user.email));
@@ -126,7 +139,7 @@ class ProjectRepository implements IProjectRepository {
         }
         if (missingEmails.length > 0) {
           throw new Error(
-            `The following emails does not exist in the system: ${missingEmails.join(
+            `The following emails does not joined in your company: ${missingEmails.join(
               ", "
             )} Please invite them through company Dashboard`
           );
@@ -190,10 +203,13 @@ class ProjectRepository implements IProjectRepository {
       }
       const companyId = admin.companyId;
       const sameEmail = admin.email;
+      const companyData:ICompany|null = await this.companyModel.findOne({_id:companyId})
+      if(!companyData) throw new Error("No company Data exists")
+      const refferalCode:string = companyData?.refferalCode
       const memberEmails = projectData.members.map((member) => member.email);
       const existingUsers = await this.userModel.find({
-        email: { $in: memberEmails }, // Match emails in the array
-        companyId: companyId, // Match the specific company ID
+        email: { $in: memberEmails }, 
+        refferalCode: refferalCode, 
       });
 
       const missingEmails = [];
@@ -211,7 +227,7 @@ class ProjectRepository implements IProjectRepository {
       }
       if (missingEmails.length > 0) {
         throw new Error(
-          `The following emails does not exist in the system:${missingEmails.join(
+          `The following emails does not exist in the company:${missingEmails.join(
             ", "
           )}`
         );

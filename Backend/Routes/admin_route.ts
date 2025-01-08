@@ -34,7 +34,7 @@ const adminRepository = new AdminRepository(Admin, User, Payment);
 const adminService = new AdminServices(adminRepository);
 const adminController = new AdminController(adminService);
 
-const companyRepository = new CompanyRepository(Admin, User, Company, Project);
+const companyRepository = new CompanyRepository(Admin, User, Company, Project,Payment);
 const companyService = new CompanyServices(companyRepository);
 const companyController = new CompanyController(companyService);
 
@@ -44,7 +44,8 @@ const projectRepository = new ProjectRepository(
   Project,
   Message,
   Payment,
-  Task
+  Task,
+  Company
 );
 const projectService = new ProjectServices(projectRepository);
 const projectController = new ProjectController(projectService);

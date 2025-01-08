@@ -6,7 +6,7 @@ export interface ICompanyService{
   companyData(admin_id:string):Promise<string>
   inviationUsers(admin_id:string,members:IMember[]):Promise<ICompanyMember[]>
   inviteUser(admin_id:string,email:string):Promise<void>
-  companyInfo(admin_id:string):Promise<{companyName:string,userCount:number,projectCount:number}>
+  companyInfo(admin_id:string):Promise<{companyName:string,userCount:number,projectCount:number,premium:string}>
   companyName(user_id:string):Promise<string>
   searchMembers(admin_id:string,searchQuery:string,selectedProject:IProject|null):Promise<ICompanyMember[]|IUser[]>
 }

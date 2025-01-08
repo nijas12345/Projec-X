@@ -45,6 +45,10 @@ class AdminServices implements IAdminService {
     try {
       const adminData = await this.adminRepository.login(email);
       if (!adminData) throw new Error("Email not found");
+      console.log("adminData",adminData);
+      
+      if (!adminData) throw new Error("Email not found");
+      if(!adminData.password) throw new Error("Please login through google")
       const comparePassword = await bcrypt.compare(
         password,
         adminData.password as string

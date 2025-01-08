@@ -47,7 +47,8 @@ const projectRepository = new ProjectRepository(
   Project,
   Message,
   Payment,
-  Task
+  Task,
+  Company
 );
 const projectService = new ProjectServices(projectRepository);
 const projectController = new ProjectController(projectService);
@@ -79,7 +80,7 @@ const notificationRepository = new NotificationRepository(
 const notificationService = new NotificationService(notificationRepository);
 const notificationController = new NotificationController(notificationService);
 
-const companyRepository = new CompanyRepository(Admin, User, Company, Project);
+const companyRepository = new CompanyRepository(Admin, User, Company, Project,Payment);
 const companyService = new CompanyServices(companyRepository);
 const companyController = new CompanyController(companyService);
 

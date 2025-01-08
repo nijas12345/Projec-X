@@ -8,6 +8,6 @@ export interface ICompanyRepository{
   companyData(admin_id:string):Promise<ICompany|null>
   inviationUsers(admin_id:string,members:IMember[]):Promise<{refferalCode:string,companyMembers:ICompanyMember[]}>
   inviteUser(admin_id:string):Promise<string>
-  companyInfo(admin_id:string):Promise<{companyName:string,userCount:number,projectCount:number}>
+  companyInfo(admin_id:string):Promise<{companyName:string,userCount:number,projectCount:number,premium:string}>
   companyName(user_id:string):Promise<ICompany|null>
 }

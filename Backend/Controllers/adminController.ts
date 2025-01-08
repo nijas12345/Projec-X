@@ -116,6 +116,9 @@ class AdminController {
         res
           .status(HTTP_statusCode.NoAccess)
           .json({ message: "Admin is blocked" });
+      } else if(error.message == "Please login through google"){
+        res.status(HTTP_statusCode.unAuthorized)
+        .json({message:"Please login through google"})
       } else {
         res
           .status(HTTP_statusCode.InternalServerError)

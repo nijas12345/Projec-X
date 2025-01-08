@@ -4,6 +4,7 @@ import {
   ICompany,
   ICompanyMember,
   IMember,
+  IPayment,
   IProject,
   IUser,
 } from "../Interfaces/commonInterface";
@@ -15,16 +16,19 @@ class CompanyRepository implements ICompanyRepository {
   private userModel = Model<IUser>;
   private companyModel = Model<ICompany>;
   private projectModel = Model<IProject>;
+  private paymentModel = Model<IPayment>
   constructor(
     adminModel: Model<IAdmin>,
     userModel: Model<IUser>,
     companyModel: Model<ICompany>,
-    projectModel: Model<IProject>
+    projectModel: Model<IProject>,
+    paymentModel:Model<IPayment>
   ) {
     this.companyModel = companyModel;
     this.adminModel = adminModel;
     this.userModel = userModel;
     this.projectModel = projectModel;
+    this.paymentModel = paymentModel;
   }
   companyDetails = async (
     companyData: ICompany,
@@ -197,11 +201,23 @@ class CompanyRepository implements ICompanyRepository {
     companyName: string;
     userCount: number;
     projectCount: number;
+    premium:string
   }> => {
     try {
       const adminData: IAdmin | null = await this.adminModel.findOne({
         admin_id: admin_id,
       });
+      const paymentData: IPayment | null = await this.paymentModel.findOne({
+                admin_id: admin_id,
+                status: "active",
+      });
+      let premium:string
+      if(paymentData){
+           premium = paymentData.subscription.charAt(0).toUpperCase()+paymentData.subscription.slice(1) +"Premium"
+      }
+      else{
+         premium = "Go Premium"
+      }
       if (!adminData) throw new Error("No Admin Data found");
       const companyId = adminData.companyId;
       const companyInfo: ICompany | null = await this.companyModel.findOne({
@@ -215,7 +231,7 @@ class CompanyRepository implements ICompanyRepository {
       const projectCount = await this.projectModel.countDocuments({
         admin_id: admin_id,
       });
-      return { companyName, userCount, projectCount };
+      return { companyName, userCount, projectCount,premium };
     } catch (error) {
       throw error;
     }

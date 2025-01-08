@@ -28,6 +28,8 @@ class UserServices implements IUserService {
       console.log("userData",userData);
       
       if (!userData) throw new Error("Email not found");
+      if(userData.password) throw new Error("Please login through google")
+      
       const comparePassword = await bcrypt.compare(
         password,
         userData.password as string

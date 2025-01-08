@@ -109,6 +109,7 @@ class CompanyServices implements ICompanyService {
     companyName: string;
     userCount: number;
     projectCount: number;
+    premium:string
   }> => {
     try {
       const companyInfo = await this.companyRepository.companyInfo(admin_id);

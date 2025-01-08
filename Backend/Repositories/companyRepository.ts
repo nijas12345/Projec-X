@@ -213,7 +213,7 @@ class CompanyRepository implements ICompanyRepository {
       });
       let premium:string
       if(paymentData){
-           premium = paymentData.subscription.charAt(0).toUpperCase()+paymentData.subscription.slice(1) +"Premium"
+           premium = paymentData.subscription.charAt(0).toUpperCase()+paymentData.subscription.slice(1) + "Premium"
       }
       else{
          premium = "Go Premium"

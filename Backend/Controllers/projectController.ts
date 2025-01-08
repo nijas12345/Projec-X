@@ -17,8 +17,6 @@ class ProjectController {
         admin_id,
         projectData
       );
-      console.log(serviceResponse);
-
       res.status(200).json(serviceResponse);
     } catch (error: any) {
       const message = error.message;

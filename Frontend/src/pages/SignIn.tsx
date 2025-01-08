@@ -107,14 +107,20 @@ const SignIn: React.FC = () => {
         setLoading(true);
         
         if (token) {
-          await api.post(`/register?refferalCode=${token}`, formData, {});
-          setLoading(false)
-          navigate("/otp");
+          const response = await api.post(`/register?refferalCode=${token}`, formData, {});
+          if(response.status == 200){
+            setLoading(false)
+            navigate("/otp");
+          }
         } else {
-          await api.post("/register", formData);
-          navigate("/otp");
+          const response = await api.post("/register", formData);
+          if(response.status == 200){
+            setLoading(false)
+            navigate("/otp");
+          }
         }
       } catch (error: any) {
+        setLoading(false)
         if (error.response.data.message === "Email already exists") {
           toast.error("Email already exists");
         }

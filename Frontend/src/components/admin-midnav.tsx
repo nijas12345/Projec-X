@@ -13,7 +13,7 @@ import { TrashIcon } from "lucide-react";
 import { showProjectDeleteConfirmation } from "../utils/swalUtils";
 
 const AdminProjectSidebar: React.FC<ProjectSidebarProps> = ({
-  initialProjects = [],
+  initialProjects = [], 
 }) => {
   const adminInfo = useSelector(
     (state: RootState): AdminData | null => state.adminAuth.adminInfo
@@ -197,7 +197,7 @@ const AdminProjectSidebar: React.FC<ProjectSidebarProps> = ({
             .map((project) => (
               <div
                 key={project._id}
-                className="bg-white p-4 mb-2  rounded-md shadow-lg hover:bg-gray-200 cursor-pointer"
+                className="p-4 shadow rounded-md hover:shadow-lg  cursor-pointer"
                 onClick={() => toggleModal("view", project)}
               >
                 <h4 className="text-lg font-semibold">

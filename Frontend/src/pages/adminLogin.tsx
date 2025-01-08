@@ -93,6 +93,7 @@ if (!email) {
       const message = error.response?.data?.message;
       if (message === "Email not found") handleError("Email not found");
       else if (message === "Wrong password") handleError("Password is wrong");
+      else if (message === "Please login through google") handleError("Please use your Google account to log in. Thank you!")
       else if (message === "User is blocked")
         handleError("Your account has been blocked. Please contact support.");
       else handleError("");

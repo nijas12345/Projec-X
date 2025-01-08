@@ -289,7 +289,7 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
                   </td>
 
                   {/* Role */}
-                  <td className="px-4 py-3 text-sm text-gray-600">{user.position||"Position not updated"}</td>
+                  <td className="px-4 py-3 text-sm text-gray-600">{user.position||"Not updated"}</td>
 
                   {/* Status */}
                   <td className=" py-3">
@@ -297,7 +297,7 @@ const UserManagementRight: React.FC<UserManagementRightProps> = ({
                       <div
                         className={`h-2 w-2 rounded-full`}
                       ></div>
-                      <span className="text-sm text-gray-800">{user.phone}</span>
+                      <span className="text-sm text-gray-800">{user.phone || "Not updated"}</span>
                     </div>
                   </td>
 

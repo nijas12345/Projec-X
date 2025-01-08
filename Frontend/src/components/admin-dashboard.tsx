@@ -22,13 +22,13 @@ const AdminDashboard: React.FC = () => {
   const [companyName, setCompanyName] = useState<string>("");
   const [userCount, setUserCount] = useState<number>(0);
   const [projectCount, setProjectCount] = useState<number>(0);
+  const [premium,setPremium] = useState<string>("")
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTaskDetails = async () => {
       const response = await api.get("/admin/count-tasks");
-      console.log(response);
 
       try {
         if (response.status == 200) {
@@ -46,13 +46,12 @@ const AdminDashboard: React.FC = () => {
   useEffect(() => {
     const fetchCompanyInformations = async () => {
       const response = await api.get("/admin/company-info");
-      console.log("fetch", response);
-
       try {
         if (response.status == 200) {
           setCompanyName(response.data.companyName);
           setUserCount(response.data.userCount);
           setProjectCount(response.data.projectCount);
+          setPremium(response.data.premium)
         }
       } catch (error: any) {
         toast.error("Fetching company info is failed ");
@@ -81,7 +80,7 @@ const AdminDashboard: React.FC = () => {
                 navigate("/premium");
               }}
             >
-              Go Premium
+              {premium}
             </button>
           </div>
         </div>
